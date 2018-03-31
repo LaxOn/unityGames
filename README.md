@@ -1,2 +1,2 @@
 # unitycourse2
-Game Development Files - Unity using C#
+Unity Game Development in C# Files
