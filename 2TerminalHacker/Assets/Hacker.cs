@@ -20,17 +20,22 @@ public class Hacker : MonoBehaviour {
         Win
     }
 
-
+    //string name;
+    //name = "hi";
     int level;
+    string[] level1Passwords = { "" };
+    string[] level2Passwords = { "" };
+    string[] level3Passwords = { "" };
+    string password;
     Company currentCompany;
     Screen currentScreen;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         ShowMainMenu();
     }
 
-    
+
 
 
     void OnUserInput(string input) {
@@ -49,9 +54,9 @@ public class Hacker : MonoBehaviour {
 
     void ShowMainMenu() {
         Terminal.ClearScreen();
-        Terminal.WriteLine("What would you like to hack into?\n");
+        Terminal.WriteLine("What would you like to hack into?");
         Terminal.WriteLine("Enter your selection:");
-        Terminal.WriteLine("Facebook, Enron, or Volkswagen?\n");
+        Terminal.WriteLine("Facebook, Enron, or Volkswagen?");
         currentScreen = Screen.PickCompany;
     }
 
@@ -76,31 +81,58 @@ public class Hacker : MonoBehaviour {
     }
 
     private void RunPickLevel(string input) {
-       if (input == "1") {
-            level = 1;
+        Terminal.ClearScreen();
+        if (input == "1") {
+            level = int.Parse(input);
+            if (currentCompany == Company.Enron) password = "Enron1";
+            else if (currentCompany == Company.Facebook) password = "Facebook1";
+            else if (currentCompany == Company.Volkswagen) password = "Volkswagen1";
             Terminal.WriteLine("You have chosen level " + level);
             Terminal.WriteLine("Please enter your password:");
             currentScreen = Screen.Password;
         } else if (input == "2") {
-            level = 2;
+            level = int.Parse(input);
+            if (currentCompany == Company.Enron) password = "Enron1";
+            else if (currentCompany == Company.Facebook) password = "Facebook1";
+            else if (currentCompany == Company.Volkswagen) password = "Volkswagen1";
             Terminal.WriteLine("You have chosen level " + level);
             Terminal.WriteLine("Please enter your password:");
             currentScreen = Screen.Password;
         } else if (input == "3") {
-            level = 3;
+            level = int.Parse(input);
+            if (currentCompany == Company.Enron) password = "Enron1";
+            else if (currentCompany == Company.Facebook) password = "Facebook1";
+            else if (currentCompany == Company.Volkswagen) password = "Volkswagen1";
             Terminal.WriteLine("You have chosen level " + level);
             Terminal.WriteLine("Please enter your password:");
             currentScreen = Screen.Password;
         } else {
-            Terminal.ClearScreen();
             Terminal.WriteLine("Please choose a valid level!");
         }
+
+        //switch (name) {
+        //    case "007":
+        //        print("");
+        //        break;
+        //    default:
+        //        print("");
+        //        break;
+        //}
     }
 
 
+
     private void RunPassword(string input) {
-        if (false) {
+        Terminal.ClearScreen();
+        if (input == password && level == 3) {
+            Terminal.WriteLine("Congratulations! You won the game!");
+            Terminal.WriteLine("Now back to real life...");
             currentScreen = Screen.Win;
+        } else if (input == password) {
+            Terminal.WriteLine("You got it!");
+            Terminal.WriteLine("You passed level " + level +"!");
+            Terminal.WriteLine("Can you guess the next one?");
+            ++level;
         } else {
             Terminal.WriteLine("That's not the password! Ha-ha!");
         }
