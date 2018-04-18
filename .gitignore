@@ -2,6 +2,8 @@
 /1FirstSteps/ProjectSettings
 /1FirstSteps/Temp
 /1FirstSteps/UnityPackageManager
+/1FirstSteps/1FirstSteps.csproj
+/1FirstSteps/1FirstSteps.sln
 
 /2TerminalHacker/Library 
 /2TerminalHacker/ProjectSettings
@@ -9,3 +11,10 @@
 /2TerminalHacker/UnityPackageManager
 /2TerminalHacker/2TerminalHacker.csproj
 /2TerminalHacker/2TerminalHacker.sln
+
+/3RocketCockroach/Library 
+/3RocketCockroach/ProjectSettings
+/3RocketCockroach/Temp
+/3RocketCockroach/UnityPackageManager
+/3RocketCockroach/3RocketCockroach.csproj
+/3RocketCockroach/3RocketCockroach.sln
