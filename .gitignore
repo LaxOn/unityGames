@@ -1,9 +1,11 @@
-/1FirstSteps/Library 
-/1FirstSteps/ProjectSettings
-/1FirstSteps/Temp
-/1FirstSteps/UnityPackageManager
+/1FirstStep/Library 
+/1FirstStep/ProjectSettings
+/1FirstStep/Temp
+/1FirstStep/UnityPackageManager
 
 /2TerminalHacker/Library 
 /2TerminalHacker/ProjectSettings
 /2TerminalHacker/Temp
 /2TerminalHacker/UnityPackageManager
+/2TerminalHacker/2TerminalHacker.csproj
+/2TerminalHacker/2TerminalHacker.sln
