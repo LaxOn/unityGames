@@ -1,145 +1,139 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Hacker : MonoBehaviour {
 
-    // Game State
-    enum Company {
-        Facebook,
-        Enron,
-        Volkswagen
-    }
+    // Game configuration data
+    string[] level1Passwords = { "diesel", "cheating", "pollution", "emissions", "epa", };
+    string[] level2Passwords = { "bankrupt", "special purpose entity", "fraud", "talking points", "litigation" };
+    string[] level3Passwords = { "russians", "cambridge analytica", "we run ads", "presidential election", "respectfully senator" };
 
-    enum Screen {
-        MainMenu,
-        PickCompany,
-        PickLevel,
-        Password,
-        Win
-    }
-
-    //string name;
-    //name = "hi";
+    // Game state
     int level;
-    string[] level1Passwords = { "" };
-    string[] level2Passwords = { "" };
-    string[] level3Passwords = { "" };
-    string password;
-    Company currentCompany;
+    enum Screen { MainMenu, Password, Win };
     Screen currentScreen;
+    string password;
 
     // Use this for initialization
     void Start() {
         ShowMainMenu();
     }
 
-
-
-
-    void OnUserInput(string input) {
-        if (input == "menu") {
-            ShowMainMenu();
-        } else if (currentScreen == Screen.PickCompany) {
-            RunPickCompany(input);
-        } else if (currentScreen == Screen.PickLevel) {
-            RunPickLevel(input);
-        } else if (currentScreen == Screen.Password) {
-            RunPassword(input);
-        } else if (currentScreen == Screen.Win) {
-            RunWin();
-        }
-    }
-
     void ShowMainMenu() {
+        currentScreen = Screen.MainMenu;
         Terminal.ClearScreen();
         Terminal.WriteLine("What would you like to hack into?");
+        Terminal.WriteLine("Press 1 for Volkswagen!");
+        Terminal.WriteLine("Press 2 for Enron");
+        Terminal.WriteLine("Press 3 for Facebook");
         Terminal.WriteLine("Enter your selection:");
-        Terminal.WriteLine("Facebook, Enron, or Volkswagen?");
-        currentScreen = Screen.PickCompany;
     }
 
-    void RunPickCompany(string input) {
-        if (input.ToUpper() == "Facebook".ToUpper()) {
-            currentCompany = Company.Facebook;
-            Terminal.WriteLine("Please select a level, Zuckerberg!");
-            currentScreen = Screen.PickLevel;
-        } else if (input.ToUpper() == "Enron".ToUpper()) {
-            currentCompany = Company.Enron;
-            Terminal.WriteLine("Please select a level, you filthy CEO!");
-            currentScreen = Screen.PickLevel;
-        } else if (input.ToUpper() == "Volkswagen".ToUpper()) {
-            currentCompany = Company.Volkswagen;
-            Terminal.WriteLine("Please select a level!, you cheater!");
-            currentScreen = Screen.PickLevel;
-        } else {
-            Terminal.ClearScreen();
-            Terminal.WriteLine("Please choose a valid company!");
-            Terminal.WriteLine("Facebook, Enron, or Volkswagen?\n");
+    void OnUserInput(string input) {
+        if (input == "menu") // we can always go direct to main menu
+        {
+            ShowMainMenu();
+        } else if (currentScreen == Screen.MainMenu) {
+            RunMainMenu(input);
+        } else if (currentScreen == Screen.Password) {
+            CheckPassword(input);
         }
     }
 
-    private void RunPickLevel(string input) {
+    void RunMainMenu(string input) {
+        bool isValidLevelNumber = (input == "1" || input == "2" || input == "3");
+        if (isValidLevelNumber) {
+            level = int.Parse(input);
+            AskForPassword();
+        } else if (input == "666") // easter egg
+          {
+            Terminal.WriteLine("You've summoned a demon!");
+        } else {
+            Terminal.WriteLine("Please choose a valid level");
+        }
+    }
+
+    void AskForPassword() {
+        currentScreen = Screen.Password;
         Terminal.ClearScreen();
-        if (input == "1") {
-            level = int.Parse(input);
-            if (currentCompany == Company.Enron) password = "Enron1";
-            else if (currentCompany == Company.Facebook) password = "Facebook1";
-            else if (currentCompany == Company.Volkswagen) password = "Volkswagen1";
-            Terminal.WriteLine("You have chosen level " + level);
-            Terminal.WriteLine("Please enter your password:");
-            currentScreen = Screen.Password;
-        } else if (input == "2") {
-            level = int.Parse(input);
-            if (currentCompany == Company.Enron) password = "Enron1";
-            else if (currentCompany == Company.Facebook) password = "Facebook1";
-            else if (currentCompany == Company.Volkswagen) password = "Volkswagen1";
-            Terminal.WriteLine("You have chosen level " + level);
-            Terminal.WriteLine("Please enter your password:");
-            currentScreen = Screen.Password;
-        } else if (input == "3") {
-            level = int.Parse(input);
-            if (currentCompany == Company.Enron) password = "Enron1";
-            else if (currentCompany == Company.Facebook) password = "Facebook1";
-            else if (currentCompany == Company.Volkswagen) password = "Volkswagen1";
-            Terminal.WriteLine("You have chosen level " + level);
-            Terminal.WriteLine("Please enter your password:");
-            currentScreen = Screen.Password;
-        } else {
-            Terminal.WriteLine("Please choose a valid level!");
-        }
-
-        //switch (name) {
-        //    case "007":
-        //        print("");
-        //        break;
-        //    default:
-        //        print("");
-        //        break;
-        //}
+        SetRandomPassword();
+        Terminal.WriteLine("Enter your password: ");
+        Terminal.WriteLine("Hint: " + password.Anagram());
     }
 
+    private void SetRandomPassword() {
+        switch (level) {
+            case 1:
+                password = level1Passwords[Random.Range(0, level1Passwords.Length)];
+                break;
+            case 2:
+                password = level2Passwords[Random.Range(0, level2Passwords.Length)];
+                break;
+            case 3:
+                password = level3Passwords[Random.Range(0, level3Passwords.Length)];
+                break;
+            default:
+                Debug.LogError("Invalid level number");
+                break;
+        }
+    }
 
+    void CheckPassword(string input) {
+        if (input == password) {
+            DisplayWinScreen();
+        } else {
+            AskForPassword();
+        }
+    }
 
-    private void RunPassword(string input) {
+    void DisplayWinScreen() {
+        currentScreen = Screen.Win;
         Terminal.ClearScreen();
-        if (input == password && level == 3) {
-            Terminal.WriteLine("Congratulations! You won the game!");
-            Terminal.WriteLine("Now back to real life...");
-            currentScreen = Screen.Win;
-        } else if (input == password) {
-            Terminal.WriteLine("You got it!");
-            Terminal.WriteLine("You passed level " + level +"!");
-            Terminal.WriteLine("Can you guess the next one?");
-            ++level;
-        } else {
-            Terminal.WriteLine("That's not the password! Ha-ha!");
+        ShowLevelReward();
+    }
+
+    void ShowLevelReward() {
+        switch (level) {
+            case 1:
+                Terminal.WriteLine("You looted a defective car!");
+                Terminal.WriteLine(@"
+             ______--------___
+             /|             / |
+  o___________|_\__________/__|
+ ]|___     |  |=   ||  =|___  |""
+//   \\    |  |____||_///   \\|""
+| X |\--------------/| X |\""
+ \___ /             \___ /
+");
+                break;
+            case 2:
+                Terminal.WriteLine("You stole a pile of dirty money!");
+                Terminal.WriteLine(@"
+  _....._
+  ';-.--';'
+    }===={      
+  .'  _|_ '.    
+  /:: (_|_` \    
+ |::  ,_|_)  \  
+ \::.   |    /
+  '::_______/
+"
+                );
+                break;
+            case 3:
+                Terminal.WriteLine("You digitally extracted The DNA!");
+                Terminal.WriteLine(@"
+.--'""`'--._    _.--'""`'--._    _.-
+  '-:`.' |`| ""':-.  '-:`.'|`|""':-.
+'.  '.  | |  | | '.  '.  | |  | | '. 
+: '.  '.| |  | | '.  '.| |  | | '.  '
+'   '.  `.:_ | :_.' '.  `.:_ | :_.' '
+       `-..,..- '       `-..,..-'       
+"
+                );
+                break;
+            default:
+                Debug.LogError("Invalid level reached");
+                break;
         }
     }
-
-    private void RunWin() {
-       
-    }
-
 }
